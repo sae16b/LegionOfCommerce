@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts;
+using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LegionOfCommerce.Controllers
@@ -10,18 +12,68 @@ namespace LegionOfCommerce.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+		private IUnitOfWork TheUnitOfWork;
+
+		public ValuesController(IUnitOfWork theUnitOfWork)
+		{
+			TheUnitOfWork = theUnitOfWork;
+			
+			Console.WriteLine("Hi");
+		}
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2" };
-        }
+
+
+			List<string> userNames = new List<string>();
+			IEnumerable<User> Users = TheUnitOfWork.User.GetAll();
+			TheUnitOfWork.Complete();
+			if (Users != null)
+			{
+				Console.WriteLine("USERS", Users);
+				foreach (var user in Users)
+				{
+					userNames.Add(user.Username);
+				}
+			}
+			else
+			{
+				userNames.Add("NONE");
+			}
+
+			return userNames;
+		}
 
         // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            return "value";
+			//User user = TheUnitOfWork.User.Get(id); 
+			//TheUnitOfWork.User.SayHiToUser(user);
+			/*
+			foreach(User user in TheUnitOfWork.User.GetAll())
+			{
+				Console.WriteLine(user.Username);
+			}
+			*/
+			
+
+			string userNames = "";
+			IEnumerable<User> Users = TheUnitOfWork.User.GetAll();
+			if(Users != null)
+			{
+				Console.WriteLine("USERS", Users);
+				foreach (var user in Users)
+				{
+					userNames += (user.Username + ", ");
+				}
+			} else
+			{
+				userNames = "NONE";
+			}
+			
+            return userNames;
         }
 
         // POST api/values
