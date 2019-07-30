@@ -4,16 +4,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models
 {
-	[Table("user")]
 	public partial class User
 	{
 		public User()
 		{
-			CustomerReview = new HashSet<CustomerReview>();
-			Product = new HashSet<Product>();
-			Review = new HashSet<Review>();
-			ShoppingCartItem = new HashSet<ShoppingCartItem>();
-			UserAddress = new HashSet<UserAddress>();
+			CustomerReviews = new HashSet<CustomerReview>();
+			Products = new HashSet<Product>();
+			Reviews = new HashSet<Review>();
+			ShoppingCartItems = new HashSet<ShoppingCartItem>();
+			Orders = new HashSet<Order>();
 		}
 
 		public int UserId { get; set; }
@@ -27,10 +26,17 @@ namespace Entities.Models
 		public int? BillingAddressId { get; set; }
 		public DateTime CreationDate { get; set; }
 
-		public virtual ICollection<CustomerReview> CustomerReview { get; set; }
-		public virtual ICollection<Product> Product { get; set; }
-		public virtual ICollection<Review> Review { get; set; }
-		public virtual ICollection<ShoppingCartItem> ShoppingCartItem { get; set; }
-		public virtual ICollection<UserAddress> UserAddress { get; set; }
+		public virtual UserAddress UserAddress { get; set; }
+
+		public virtual ICollection<CustomerReview> CustomerReviews { get; set; }
+		public virtual ICollection<Product> Products { get; set; }
+		public virtual ICollection<Review> Reviews { get; set; }
+		public virtual ICollection<ShoppingCartItem> ShoppingCartItems { get; set; }
+		public virtual ICollection<Order> Orders { get; set; }
+
+		public string GetUserNameAndEmail()
+		{
+			return Username + Email;
+		}
 	}
 }

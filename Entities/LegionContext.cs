@@ -1,18 +1,16 @@
 ﻿using Entities.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Entities
 {
 	public partial class LegionContext : DbContext
 	{
-		public LegionContext()
-		{
-		}
 
 		public LegionContext(DbContextOptions<LegionContext> options)
 			: base(options)
 		{
+			//Database.EnsureDeleted(); -- Use this for database resets!
+			Database.EnsureCreated();
 		}
 
 		public virtual DbSet<Address> Address { get; set; }
@@ -21,7 +19,7 @@ namespace Entities
 		public virtual DbSet<OrderAddress> OrderAddress { get; set; }
 		public virtual DbSet<Product> Product { get; set; }
 		public virtual DbSet<ProductAddress> ProductAddress { get; set; }
-		public virtual DbSet<ProductReviews> ProductReviews { get; set; }
+		public virtual DbSet<ProductReview> ProductReviews { get; set; }
 		public virtual DbSet<QuestionAnswer> QuestionAnswer { get; set; }
 		public virtual DbSet<Review> Review { get; set; }
 		public virtual DbSet<ShoppingCartItem> ShoppingCartItem { get; set; }
@@ -30,11 +28,6 @@ namespace Entities
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			if (!optionsBuilder.IsConfigured)
-			{
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-				//optionsBuilder.UseMySQL("server=localhost;port=3306;user=SameAsPassword;password=SameAsPassword;database=legionofcommerce");
-			}
 		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -43,7 +36,7 @@ namespace Entities
 
 			modelBuilder.Entity<Address>(entity =>
 			{
-				entity.ToTable("address", "legionofcommerce");
+				entity.ToTable("address", "legionofcommerce2");
 
 				entity.Property(e => e.AddressId).HasColumnType("int(11)");
 
@@ -79,7 +72,7 @@ namespace Entities
 
 			modelBuilder.Entity<CustomerReview>(entity =>
 			{
-				entity.ToTable("customer_review", "legionofcommerce");
+				entity.ToTable("customer_review", "legionofcommerce2");
 
 				entity.HasIndex(e => e.ReviewId)
 							.HasName("fk_CustomerReview_Review1_idx");
@@ -96,13 +89,13 @@ namespace Entities
 				entity.Property(e => e.TargetUserId).HasColumnType("int(10) unsigned");
 
 				entity.HasOne(d => d.Review)
-							.WithMany(p => p.CustomerReview)
-							.HasForeignKey(d => d.ReviewId)
+							.WithOne(p => p.CustomerReview)
+							.HasForeignKey<CustomerReview>(d => d.ReviewId)
 							.OnDelete(DeleteBehavior.ClientSetNull)
 							.HasConstraintName("fk_CustomerReview_Review1");
 
 				entity.HasOne(d => d.TargetUser)
-							.WithMany(p => p.CustomerReview)
+							.WithMany(p => p.CustomerReviews)
 							.HasForeignKey(d => d.TargetUserId)
 							.OnDelete(DeleteBehavior.ClientSetNull)
 							.HasConstraintName("fk_CustomerReview_User1");
@@ -110,7 +103,7 @@ namespace Entities
 
 			modelBuilder.Entity<Order>(entity =>
 			{
-				entity.ToTable("order", "legionofcommerce");
+				entity.ToTable("order", "legionofcommerce2");
 
 				entity.HasIndex(e => e.Date)
 							.HasName("date_idx");
@@ -167,7 +160,7 @@ namespace Entities
 							.HasColumnType("enum('SELLER','BUYER')");
 
 				entity.HasOne(d => d.Product)
-							.WithMany(p => p.Order)
+							.WithMany(p => p.Orders)
 							.HasForeignKey(d => d.ProductId)
 							.OnDelete(DeleteBehavior.ClientSetNull)
 							.HasConstraintName("fk_Order_Product1");
@@ -175,7 +168,7 @@ namespace Entities
 
 			modelBuilder.Entity<OrderAddress>(entity =>
 			{
-				entity.ToTable("order_address", "legionofcommerce");
+				entity.ToTable("order_address", "legionofcommerce2");
 
 				entity.HasIndex(e => e.AddressId)
 							.HasName("fk_OrderAddress_Address1_idx");
@@ -192,21 +185,21 @@ namespace Entities
 				entity.Property(e => e.OrderId).HasColumnType("int(11)");
 
 				entity.HasOne(d => d.Address)
-							.WithMany(p => p.OrderAddress)
-							.HasForeignKey(d => d.AddressId)
+							.WithOne(p => p.OrderAddress)
+							.HasForeignKey<OrderAddress>(d => d.AddressId)
 							.OnDelete(DeleteBehavior.ClientSetNull)
 							.HasConstraintName("fk_OrderAddress_Address1");
 
 				entity.HasOne(d => d.Order)
-							.WithMany(p => p.OrderAddress)
-							.HasForeignKey(d => d.OrderId)
+							.WithOne(p => p.OrderAddress)
+							.HasForeignKey<OrderAddress>(d => d.OrderId)
 							.OnDelete(DeleteBehavior.ClientSetNull)
 							.HasConstraintName("fk_OrderAddress_Order1");
 			});
 
 			modelBuilder.Entity<Product>(entity =>
 			{
-				entity.ToTable("product", "legionofcommerce");
+				entity.ToTable("product", "legionofcommerce2");
 
 				entity.HasIndex(e => e.Condition)
 							.HasName("condition_idx");
@@ -265,7 +258,7 @@ namespace Entities
 							.IsUnicode(false);
 
 				entity.HasOne(d => d.Seller)
-							.WithMany(p => p.Product)
+							.WithMany(p => p.Products)
 							.HasForeignKey(d => d.SellerId)
 							.OnDelete(DeleteBehavior.ClientSetNull)
 							.HasConstraintName("fk_Product_User1");
@@ -273,7 +266,7 @@ namespace Entities
 
 			modelBuilder.Entity<ProductAddress>(entity =>
 			{
-				entity.ToTable("product_address", "legionofcommerce");
+				entity.ToTable("product_address", "legionofcommerce2");
 
 				entity.HasIndex(e => e.AddressId)
 							.HasName("fk_ProductAddress_Address1_idx");
@@ -288,23 +281,23 @@ namespace Entities
 				entity.Property(e => e.ProductId).HasColumnType("int(11)");
 
 				entity.HasOne(d => d.Address)
-							.WithMany(p => p.ProductAddress)
-							.HasForeignKey(d => d.AddressId)
+							.WithOne(p => p.ProductAddress)
+							.HasForeignKey<ProductAddress>(d => d.AddressId)
 							.OnDelete(DeleteBehavior.ClientSetNull)
 							.HasConstraintName("fk_ProductAddress_Address1");
 
 				entity.HasOne(d => d.Product)
-							.WithMany(p => p.ProductAddress)
-							.HasForeignKey(d => d.ProductId)
+							.WithOne(p => p.ProductAddress)
+							.HasForeignKey<ProductAddress>(d => d.ProductId)
 							.OnDelete(DeleteBehavior.ClientSetNull)
 							.HasConstraintName("fk_ProductAddress_Product1");
 			});
 
-			modelBuilder.Entity<ProductReviews>(entity =>
+			modelBuilder.Entity<ProductReview>(entity =>
 			{
 				entity.HasKey(e => e.ProductReviewId);
 
-				entity.ToTable("product_reviews", "legionofcommerce");
+				entity.ToTable("product_reviews", "legionofcommerce2");
 
 				entity.HasIndex(e => e.ReviewId)
 							.HasName("fk_ProductReviews_Review1_idx");
@@ -321,8 +314,8 @@ namespace Entities
 				entity.Property(e => e.TargetProductId).HasColumnType("int(11)");
 
 				entity.HasOne(d => d.Review)
-							.WithMany(p => p.ProductReviews)
-							.HasForeignKey(d => d.ReviewId)
+							.WithOne(p => p.ProductReview)
+							.HasForeignKey<ProductReview>(d => d.ReviewId)
 							.OnDelete(DeleteBehavior.ClientSetNull)
 							.HasConstraintName("fk_ProductReviews_Review1");
 
@@ -335,7 +328,7 @@ namespace Entities
 
 			modelBuilder.Entity<QuestionAnswer>(entity =>
 			{
-				entity.ToTable("question_answer", "legionofcommerce");
+				entity.ToTable("question_answer", "legionofcommerce2");
 
 				entity.HasIndex(e => e.AnswererId)
 							.HasName("answerer_idx");
@@ -376,7 +369,7 @@ namespace Entities
 				entity.Property(e => e.QuestionerId).HasColumnType("int(11)");
 
 				entity.HasOne(d => d.ProductProduct)
-							.WithMany(p => p.QuestionAnswer)
+							.WithMany(p => p.QuestionAnswers)
 							.HasForeignKey(d => d.ProductProductId)
 							.OnDelete(DeleteBehavior.ClientSetNull)
 							.HasConstraintName("fk_QuestionAnswer_Product1");
@@ -384,7 +377,7 @@ namespace Entities
 
 			modelBuilder.Entity<Review>(entity =>
 			{
-				entity.ToTable("review", "legionofcommerce");
+				entity.ToTable("review", "legionofcommerce2");
 
 				entity.HasIndex(e => e.AmountUseful)
 							.HasName("amountuseful_idx");
@@ -420,7 +413,7 @@ namespace Entities
 							.IsUnicode(false);
 
 				entity.HasOne(d => d.Author)
-							.WithMany(p => p.Review)
+							.WithMany(p => p.Reviews)
 							.HasForeignKey(d => d.AuthorId)
 							.OnDelete(DeleteBehavior.ClientSetNull)
 							.HasConstraintName("fk_Review_User1");
@@ -428,7 +421,7 @@ namespace Entities
 
 			modelBuilder.Entity<ShoppingCartItem>(entity =>
 			{
-				entity.ToTable("shopping_cart_item", "legionofcommerce");
+				entity.ToTable("shopping_cart_item", "legionofcommerce2");
 
 				entity.HasIndex(e => e.ProductId)
 							.HasName("fk_ShoppingCart_Product1_idx");
@@ -447,13 +440,13 @@ namespace Entities
 				entity.Property(e => e.UserId).HasColumnType("int(10) unsigned");
 
 				entity.HasOne(d => d.Product)
-							.WithMany(p => p.ShoppingCartItem)
+							.WithMany(p => p.ShoppingCartItems)
 							.HasForeignKey(d => d.ProductId)
 							.OnDelete(DeleteBehavior.ClientSetNull)
 							.HasConstraintName("fk_ShoppingCart_Product1");
 
 				entity.HasOne(d => d.User)
-							.WithMany(p => p.ShoppingCartItem)
+							.WithMany(p => p.ShoppingCartItems)
 							.HasForeignKey(d => d.UserId)
 							.OnDelete(DeleteBehavior.ClientSetNull)
 							.HasConstraintName("fk_ShoppingCart_User1");
@@ -461,7 +454,7 @@ namespace Entities
 
 			modelBuilder.Entity<User>(entity =>
 			{
-				entity.ToTable("user", "legionofcommerce");
+				entity.ToTable("user", "legionofcommerce2");
 
 				entity.HasIndex(e => e.Email)
 							.HasName("Email_UNIQUE")
@@ -511,7 +504,7 @@ namespace Entities
 
 			modelBuilder.Entity<UserAddress>(entity =>
 			{
-				entity.ToTable("user_address", "legionofcommerce");
+				entity.ToTable("user_address", "legionofcommerce2");
 
 				entity.HasIndex(e => e.AddressId)
 							.HasName("fk_UserAddress_Address1_idx");
@@ -530,14 +523,14 @@ namespace Entities
 				entity.Property(e => e.UserId).HasColumnType("int(10) unsigned");
 
 				entity.HasOne(d => d.Address)
-							.WithMany(p => p.UserAddress)
-							.HasForeignKey(d => d.AddressId)
+							.WithOne(p => p.UserAddress)
+							.HasForeignKey<UserAddress>(d => d.AddressId)
 							.OnDelete(DeleteBehavior.ClientSetNull)
 							.HasConstraintName("fk_UserAddress_Address1");
 
 				entity.HasOne(d => d.User)
-							.WithMany(p => p.UserAddress)
-							.HasForeignKey(d => d.UserId)
+							.WithOne(p => p.UserAddress)
+							.HasForeignKey<UserAddress>(d => d.UserId)
 							.OnDelete(DeleteBehavior.ClientSetNull)
 							.HasConstraintName("fk_UserAddress_User1");
 			});

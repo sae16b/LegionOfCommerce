@@ -9,8 +9,8 @@ using System;
 
 namespace LegionOfCommerce.Extensions
 {
-    public static class ServiceExtensions
-    {
+	public static class ServiceExtensions
+	{
 		public static void ConfigureCors(this IServiceCollection services)
 		{
 			services.AddCors(options =>
@@ -38,5 +38,5 @@ namespace LegionOfCommerce.Extensions
 		{
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 		}
-    }
+	}
 }
