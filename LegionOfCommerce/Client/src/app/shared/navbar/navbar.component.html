@@ -12,22 +12,28 @@
       aria-label="Recipient's username"
     />
     <div class="input-group-append">
-      <span class="input-group-text">Search!</span>
+      <span class="input-group-text search-button pointer">
+        <i class="fa fa-search search-icon" aria-hidden="true"></i>
+      </span>
     </div>
   </div>
   <ul class="nav-list nav-item">
     <li class="nav-list-item pointer cart">
       <i class="fa fa-shopping-cart"></i>
     </li>
-    <li class="nav-list-item pointer profile">
-      <i class="fa fa-user-circle-o" aria-hidden="true">
-        <div class="imageButtonDropDown">
-          <b>Profile</b>
-          <hr />
-          <li>Login</li>
-          <li>Register</li>
-        </div>
+    <li class="nav-list-item profile">
+      <i
+        #profileDropdown
+        class="fa fa-user-circle-o pointer"
+        aria-hidden="true"
+      >
       </i>
+      <app-drop-down [buttonToOpen]="profileDropdown">
+        <b>Profile</b>
+        <hr />
+        <li>Login</li>
+        <li>Register</li>
+      </app-drop-down>
     </li>
   </ul>
 </nav>

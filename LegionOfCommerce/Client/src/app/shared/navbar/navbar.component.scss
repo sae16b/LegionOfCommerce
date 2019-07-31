@@ -1,9 +1,9 @@
 @import '~styles.scss';
-@import '~app/custom-theme.scss';
 
 #background {
   vertical-align: top;
-  background-color: $white;
+  // background-color: $white;
+  background-color: $light-grey;
   display: flex;
   justify-content: space-between;
   align-content: center;
@@ -49,5 +49,18 @@
     &:active {
       color: black;
     }
+  }
+}
+
+.search-icon {
+  width: 30px;
+  font-size: 20px;
+}
+.search-button {
+  &:hover {
+    background-color: $lighter-green;
+  }
+  &:active {
+    background-color: $green;
   }
 }
