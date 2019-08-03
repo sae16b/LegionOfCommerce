@@ -33,7 +33,7 @@ namespace LegionOfCommerce.Controllers
 				Console.WriteLine("USERS", Users);
 				foreach (var user in Users)
 				{
-					userNames.Add(user.Username);
+					userNames.Add(user.UserName);
 				}
 			}
 			else
@@ -58,7 +58,7 @@ namespace LegionOfCommerce.Controllers
 			*/
 
 			IEnumerable<User> users = TheUnitOfWork.User.Find((User _user) =>
-				_user.Username == "bob2"
+				_user.UserName == "bob2"
 			).ToList();
 			List<User> usersList = users.ToList();
 			User user = users.First<User>();

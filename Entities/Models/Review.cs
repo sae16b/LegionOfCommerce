@@ -10,7 +10,7 @@ namespace Entities.Models
 		public string Body { get; set; }
 		public DateTime CreationDate { get; set; }
 		public int AmountUseful { get; set; }
-		public int AuthorId { get; set; }
+		public string AuthorId { get; set; }
 		public string Title { get; set; }
 
 		public virtual User Author { get; set; }

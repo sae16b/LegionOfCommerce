@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models
 {
-	public partial class User
+	public partial class User : IdentityUser
 	{
 		public User()
 		{
@@ -15,10 +16,7 @@ namespace Entities.Models
 			Orders = new HashSet<Order>();
 		}
 
-		public int UserId { get; set; }
-		public string Email { get; set; }
-		public string Username { get; set; }
-		public string Password { get; set; }
+		// public string Username { get; set; }
 		public string ProfilePicture { get; set; }
 		public string Fname { get; set; }
 		public string Lname { get; set; }
@@ -36,7 +34,7 @@ namespace Entities.Models
 
 		public string GetUserNameAndEmail()
 		{
-			return Username + Email;
+			return UserName + Email;
 		}
 	}
 }

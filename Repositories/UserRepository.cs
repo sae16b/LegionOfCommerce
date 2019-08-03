@@ -11,13 +11,13 @@ namespace Repositories
 	public class UserRepository : Repository<User>, IUserRepository
 	{
 		public UserRepository(LegionContext context)
-			:base(context)
+			: base(context)
 		{
 		}
 
 		public void SayHiToUser(User user)
 		{
-			Console.WriteLine("hi {0}", user.Username);
+			Console.WriteLine("hi {0}", user.UserName);
 		}
 	}
 }

@@ -7,8 +7,8 @@ namespace Entities.Models
 	{
 		public int OrderId { get; set; }
 		public int ProductId { get; set; }
-		public int SellerId { get; set; }
-		public int BuyerId { get; set; }
+		public string SellerId { get; set; }
+		public string BuyerId { get; set; }
 		public string ProductCondition { get; set; }
 		public float ProductPrice { get; set; }
 		public string ProductTitle { get; set; }

@@ -1,15 +1,18 @@
 ﻿using Entities.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Entities
 {
-	public partial class LegionContext : DbContext
+	public partial class LegionContext : IdentityDbContext
 	{
+
+		const string DATABASE_NAME = "legionofcommerce6"; // Change this AND connection string
 
 		public LegionContext(DbContextOptions<LegionContext> options)
 			: base(options)
 		{
-			//Database.EnsureDeleted(); -- Use this for database resets!
+			// Database.EnsureDeleted(); // Use this for database resets!
 			Database.EnsureCreated();
 		}
 
@@ -32,11 +35,13 @@ namespace Entities
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			base.OnModelCreating(modelBuilder);
+
 			modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
 
 			modelBuilder.Entity<Address>(entity =>
 			{
-				entity.ToTable("address", "legionofcommerce2");
+				entity.ToTable("address", DATABASE_NAME);
 
 				entity.Property(e => e.AddressId).HasColumnType("int(11)");
 
@@ -70,9 +75,10 @@ namespace Entities
 							.IsUnicode(false);
 			});
 
+
 			modelBuilder.Entity<CustomerReview>(entity =>
 			{
-				entity.ToTable("customer_review", "legionofcommerce2");
+				entity.ToTable("customer_review", DATABASE_NAME);
 
 				entity.HasIndex(e => e.ReviewId)
 							.HasName("fk_CustomerReview_Review1_idx");
@@ -86,7 +92,7 @@ namespace Entities
 
 				entity.Property(e => e.ReviewId).HasColumnType("int(11)");
 
-				entity.Property(e => e.TargetUserId).HasColumnType("int(10) unsigned");
+				entity.Property(e => e.TargetUserId).HasColumnType("varchar(256)");
 
 				entity.HasOne(d => d.Review)
 							.WithOne(p => p.CustomerReview)
@@ -103,7 +109,7 @@ namespace Entities
 
 			modelBuilder.Entity<Order>(entity =>
 			{
-				entity.ToTable("order", "legionofcommerce2");
+				entity.ToTable("order", DATABASE_NAME);
 
 				entity.HasIndex(e => e.Date)
 							.HasName("date_idx");
@@ -130,7 +136,7 @@ namespace Entities
 							.HasColumnType("int(11)")
 							.ValueGeneratedNever();
 
-				entity.Property(e => e.BuyerId).HasColumnType("int(11)");
+				entity.Property(e => e.BuyerId).HasColumnType("varchar(256)");
 
 				entity.Property(e => e.Date).HasColumnType("date");
 
@@ -149,7 +155,7 @@ namespace Entities
 							.HasMaxLength(100)
 							.IsUnicode(false);
 
-				entity.Property(e => e.SellerId).HasColumnType("int(11)");
+				entity.Property(e => e.SellerId).HasColumnType("varchar(256)");
 
 				entity.Property(e => e.State)
 							.IsRequired()
@@ -168,7 +174,7 @@ namespace Entities
 
 			modelBuilder.Entity<OrderAddress>(entity =>
 			{
-				entity.ToTable("order_address", "legionofcommerce2");
+				entity.ToTable("order_address", DATABASE_NAME);
 
 				entity.HasIndex(e => e.AddressId)
 							.HasName("fk_OrderAddress_Address1_idx");
@@ -199,7 +205,7 @@ namespace Entities
 
 			modelBuilder.Entity<Product>(entity =>
 			{
-				entity.ToTable("product", "legionofcommerce2");
+				entity.ToTable("product", DATABASE_NAME);
 
 				entity.HasIndex(e => e.Condition)
 							.HasName("condition_idx");
@@ -237,16 +243,18 @@ namespace Entities
 							.IsRequired()
 							.IsUnicode(false);
 
+				/*
 				entity.Property(e => e.MainImgUrl)
 							.IsRequired()
 							.HasMaxLength(2083)
 							.IsUnicode(false);
+							*/
 
 				entity.Property(e => e.Quantity).HasColumnType("int(11)");
 
 				entity.Property(e => e.RatingsCount).HasColumnType("int(11)");
 
-				entity.Property(e => e.SellerId).HasColumnType("int(10) unsigned");
+				entity.Property(e => e.SellerId).HasColumnType("varchar(256)");
 
 				entity.Property(e => e.State)
 							.IsRequired()
@@ -266,7 +274,7 @@ namespace Entities
 
 			modelBuilder.Entity<ProductAddress>(entity =>
 			{
-				entity.ToTable("product_address", "legionofcommerce2");
+				entity.ToTable("product_address", DATABASE_NAME);
 
 				entity.HasIndex(e => e.AddressId)
 							.HasName("fk_ProductAddress_Address1_idx");
@@ -297,7 +305,7 @@ namespace Entities
 			{
 				entity.HasKey(e => e.ProductReviewId);
 
-				entity.ToTable("product_reviews", "legionofcommerce2");
+				entity.ToTable("product_reviews", DATABASE_NAME);
 
 				entity.HasIndex(e => e.ReviewId)
 							.HasName("fk_ProductReviews_Review1_idx");
@@ -328,7 +336,7 @@ namespace Entities
 
 			modelBuilder.Entity<QuestionAnswer>(entity =>
 			{
-				entity.ToTable("question_answer", "legionofcommerce2");
+				entity.ToTable("question_answer", DATABASE_NAME);
 
 				entity.HasIndex(e => e.AnswererId)
 							.HasName("answerer_idx");
@@ -353,7 +361,7 @@ namespace Entities
 							.HasMaxLength(500)
 							.IsUnicode(false);
 
-				entity.Property(e => e.AnswererId).HasColumnType("int(11)");
+				entity.Property(e => e.AnswererId).HasColumnType("varchar(256)");
 
 				entity.Property(e => e.CreationDate).HasColumnType("date");
 
@@ -366,7 +374,7 @@ namespace Entities
 							.HasMaxLength(200)
 							.IsUnicode(false);
 
-				entity.Property(e => e.QuestionerId).HasColumnType("int(11)");
+				entity.Property(e => e.QuestionerId).HasColumnType("varchar(256)");
 
 				entity.HasOne(d => d.ProductProduct)
 							.WithMany(p => p.QuestionAnswers)
@@ -377,7 +385,7 @@ namespace Entities
 
 			modelBuilder.Entity<Review>(entity =>
 			{
-				entity.ToTable("review", "legionofcommerce2");
+				entity.ToTable("review", DATABASE_NAME);
 
 				entity.HasIndex(e => e.AmountUseful)
 							.HasName("amountuseful_idx");
@@ -397,7 +405,7 @@ namespace Entities
 
 				entity.Property(e => e.AmountUseful).HasColumnType("int(11)");
 
-				entity.Property(e => e.AuthorId).HasColumnType("int(10) unsigned");
+				entity.Property(e => e.AuthorId).HasColumnType("varchar(256)");
 
 				entity.Property(e => e.Body)
 							.HasMaxLength(500)
@@ -421,7 +429,7 @@ namespace Entities
 
 			modelBuilder.Entity<ShoppingCartItem>(entity =>
 			{
-				entity.ToTable("shopping_cart_item", "legionofcommerce2");
+				entity.ToTable("shopping_cart_item", DATABASE_NAME);
 
 				entity.HasIndex(e => e.ProductId)
 							.HasName("fk_ShoppingCart_Product1_idx");
@@ -437,7 +445,7 @@ namespace Entities
 
 				entity.Property(e => e.Quantity).HasColumnType("int(11)");
 
-				entity.Property(e => e.UserId).HasColumnType("int(10) unsigned");
+				entity.Property(e => e.UserId).HasColumnType("varchar(256)");
 
 				entity.HasOne(d => d.Product)
 							.WithMany(p => p.ShoppingCartItems)
@@ -454,17 +462,15 @@ namespace Entities
 
 			modelBuilder.Entity<User>(entity =>
 			{
-				entity.ToTable("user", "legionofcommerce2");
+				entity.ToTable("user", DATABASE_NAME);
 
 				entity.HasIndex(e => e.Email)
 							.HasName("Email_UNIQUE")
 							.IsUnique();
 
-				entity.HasIndex(e => e.Username)
+				/* entity.HasIndex(e => e.Username)
 							.HasName("Username_UNIQUE")
-							.IsUnique();
-
-				entity.Property(e => e.UserId).HasColumnType("int(10) unsigned");
+							.IsUnique(); */
 
 				entity.Property(e => e.BillingAddressId).HasColumnType("int(11)");
 
@@ -485,10 +491,10 @@ namespace Entities
 							.HasMaxLength(20)
 							.IsUnicode(false);
 
-				entity.Property(e => e.Password)
+				/* entity.Property(e => e.Password)
 							.IsRequired()
 							.HasMaxLength(128)
-							.IsUnicode(false);
+							.IsUnicode(false); */
 
 				entity.Property(e => e.ProfilePicture)
 							.HasMaxLength(2083)
@@ -496,15 +502,15 @@ namespace Entities
 
 				entity.Property(e => e.ResidenceAddressId).HasColumnType("int(10) unsigned");
 
-				entity.Property(e => e.Username)
+				/* entity.Property(e => e.Username)
 							.IsRequired()
 							.HasMaxLength(15)
-							.IsUnicode(false);
+							.IsUnicode(false); */
 			});
 
 			modelBuilder.Entity<UserAddress>(entity =>
 			{
-				entity.ToTable("user_address", "legionofcommerce2");
+				entity.ToTable("user_address", DATABASE_NAME);
 
 				entity.HasIndex(e => e.AddressId)
 							.HasName("fk_UserAddress_Address1_idx");
@@ -520,7 +526,7 @@ namespace Entities
 							.IsRequired()
 							.HasColumnType("enum('BILLING','RESIDENCY')");
 
-				entity.Property(e => e.UserId).HasColumnType("int(10) unsigned");
+				entity.Property(e => e.UserId).HasColumnType("varchar(256)");
 
 				entity.HasOne(d => d.Address)
 							.WithOne(p => p.UserAddress)

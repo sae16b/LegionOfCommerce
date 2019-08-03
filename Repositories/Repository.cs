@@ -4,16 +4,17 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using Contracts.Repositories;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repositories
 {
 	public class Repository<T> : IRepository<T> where T : class
 	{
-		protected readonly DbContext Context;
+		protected readonly IdentityDbContext Context;
 		protected readonly DbSet<T> Set;
 
-		public Repository(DbContext context)
+		public Repository(IdentityDbContext context)
 		{
 			Context = context;
 			Set = Context.Set<T>();
@@ -33,7 +34,7 @@ namespace Repositories
 		{
 			return Set.Where(query);
 		}
-		
+
 		public T Get(int id)
 		{
 			return Set.Find(id);

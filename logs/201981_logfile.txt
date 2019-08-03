@@ -1,0 +1,6 @@
+2019-08-01 00:45:47.7118|INFO|LegionOfCommerce.Startup|Services have loaded in
+2019-08-01 00:49:15.0699|INFO|LegionOfCommerce.Startup|Services have loaded in
+2019-08-01 00:49:42.9453|INFO|LegionOfCommerce.Startup|Services have loaded in
+2019-08-01 00:52:15.0391|INFO|LegionOfCommerce.Startup|Services have loaded in
+2019-08-01 00:52:37.2655|INFO|LegionOfCommerce.Startup|Services have loaded in
+2019-08-01 00:55:36.9140|INFO|LegionOfCommerce.Startup|Services have loaded in

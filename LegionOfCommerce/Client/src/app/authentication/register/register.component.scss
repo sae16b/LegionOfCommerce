@@ -1,0 +1,14 @@
+@import 'app/custom-theme.scss';
+
+.registrationForm {
+  @extend .centerForm;
+  width: 100%;
+}
+
+.names {
+  display: grid;
+  grid-template-columns: 48% 48%;
+  grid-column-gap: 10px;
+  justify-content: center;
+  width: 100%;
+}

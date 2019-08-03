@@ -6,6 +6,13 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { DropDownComponent } from './drop-down/drop-down.component';
 import { GridItemComponent } from './grid-item/grid-item.component';
 
+/*
+  NOTE: If certain html tags are incorrectly showing up as
+  undefined (i.e. mat-form-field), it might be because VSCode
+  doesn't like this module being imported using @app/...
+  Just use a relative path instead.
+*/
+
 @NgModule({
   declarations: [DropDownComponent, GridItemComponent],
   imports: [

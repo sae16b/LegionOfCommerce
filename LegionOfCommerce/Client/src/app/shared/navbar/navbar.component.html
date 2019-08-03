@@ -21,7 +21,13 @@
     <li class="nav-list-item pointer cart">
       <i class="fa fa-shopping-cart"></i>
     </li>
-    <li class="nav-list-item profile">
+    <li class="nav-list-item">
+      <a routerLink="/login">Login</a>
+    </li>
+    <li class="nav-list-item">
+      <a routerLink="/register">Register</a>
+    </li>
+    <li *ngIf="false" class="nav-list-item profile">
       <i
         #profileDropdown
         class="fa fa-user-circle-o pointer"

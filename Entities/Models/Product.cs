@@ -14,8 +14,8 @@ namespace Entities.Models
 		}
 
 		public int ProductId { get; set; }
-		public int SellerId { get; set; }
-		public string MainImgUrl { get; set; }
+		public string SellerId { get; set; }
+		//public string MainImgUrl { get; set; }
 		public float Rating { get; set; }
 		public int RatingsCount { get; set; }
 		public int Quantity { get; set; }

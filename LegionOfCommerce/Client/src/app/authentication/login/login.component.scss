@@ -1,0 +1,12 @@
+@import 'app/custom-theme.scss';
+
+.loginForm {
+  @extend .centerForm;
+  width: 100%;
+}
+.signupLink {
+  margin-top: 30px;
+}
+.socialMediaIconsWrapper {
+  margin-top: 10px;
+}

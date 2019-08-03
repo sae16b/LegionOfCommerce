@@ -1,0 +1,163 @@
+@import '../colors.scss';
+
+.form {
+  background-color: $white;
+  border-style: solid;
+  border-width: 2px;
+  border-color: $light-grey;
+  padding-bottom: 30px;
+}
+
+.formSubmitButton {
+  height: 50px;
+  width: 100%;
+  background-color: $white;
+  border-color: $lighter-green;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 5px;
+  color: $lighter-green;
+  margin-top: 30px;
+  outline: none;
+
+  &:hover {
+    color: white;
+    background-color: $lighter-green;
+    border: none;
+  }
+  &:active {
+    color: white;
+    background-color: $green;
+    border: none;
+  }
+}
+
+.formTitleBanner {
+  height: 60px;
+  text-align: center;
+  background-color: $lighter-green;
+  width: 100%;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.formTitle {
+  color: $white;
+  font-size: 20px;
+  margin: 0;
+  text-align: center;
+  vertical-align: center;
+}
+
+.centerFormWrapper {
+  display: grid;
+  grid-template-columns: minmax(200px, 400px);
+  justify-content: center;
+  width: 100%;
+  .centerForm {
+    @extend .form;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+
+    .formInputsWrapper {
+      margin-left: auto;
+      margin-right: auto;
+      width: 80%;
+      mat-form-field {
+        margin-top: 10px;
+        width: 100%;
+        mat-hint {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+.socialMediaIconsWrapper {
+  margin-top: 30px;
+  p {
+    color: $dark-grey;
+  }
+}
+.socialMediaIcons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 50px;
+  margin-left: auto;
+  margin-right: auto;
+
+  .socialMediaIcon {
+    width: 45px;
+    height: 45px !important;
+    position: relative;
+  }
+
+  .fa {
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-shadow: 0 5px 10px 1px $dark-grey;
+    padding: 10px;
+    font-size: 25px;
+    width: 45px;
+    height: 45px !important;
+    text-align: center;
+    text-decoration: none;
+    margin: 5px 2px;
+    border-radius: 50%;
+
+    &:hover {
+      top: -2px;
+      left: -2px;
+      font-size: 30px;
+      width: 50px;
+      height: 50px !important;
+      box-shadow: 0 8px 10px 2px $dark-grey;
+    }
+
+    &:active {
+      filter: brightness(85%);
+    }
+  }
+  .fa-facebook-f {
+    background: #3b5998 !important;
+    color: white !important;
+  }
+
+  .fa-twitter {
+    background: #55acee !important;
+    color: white !important;
+  }
+
+  .fa-google {
+    background: #dd4b39 !important;
+    color: white !important;
+  }
+}
+
+::ng-deep .mat-focused .mat-form-field-label {
+  color: $lighter-green !important;
+}
+
+::ng-deep.mat-form-field-underline {
+  background-color: $green !important;
+}
+
+::ng-deep.mat-form-field-ripple {
+  background-color: $lighter-green !important;
+}
+
+.primary-form:focus {
+  border-color: #25bea2;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #25bea280;
+}
+
+.danger-form:focus {
+  border-color: #ff0000;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #ff000080;
+}

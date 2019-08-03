@@ -7,15 +7,28 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '@shared/shared.module';
-import { GridItemComponent } from './shared/grid-item/grid-item.component';
+import { AuthenticationModule } from './authentication/authentication.module';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { HomePageComponent } from './home-page/home-page.component';
+import { UserModule } from './user/user.module';
+import { WildCardRoutingModule } from './wildcard-routing.module';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent],
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    PageNotFoundComponent,
+    HomePageComponent
+  ],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    AuthenticationModule,
+    UserModule,
+
+    WildCardRoutingModule // this should be last routing module
   ],
   providers: [],
   bootstrap: [AppComponent]

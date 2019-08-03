@@ -5,13 +5,19 @@
 @import 'styles/screenSizes.scss';
 
 @import 'styles/components/drop-down.scss';
+@import 'styles/components/wrapper.scss';
+
+@import 'styles/components/forms.scss';
 
 @include mat-core();
-
 .pointer {
   cursor: pointer;
 }
 
 body {
   // background-color: $white;
+}
+
+a {
+  color: $lighter-green;
 }
