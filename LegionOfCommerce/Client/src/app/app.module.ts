@@ -12,6 +12,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { HomePageComponent } from './home-page/home-page.component';
 import { UserModule } from './user/user.module';
 import { WildCardRoutingModule } from './wildcard-routing.module';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import { WildCardRoutingModule } from './wildcard-routing.module';
     SharedModule,
     AuthenticationModule,
     UserModule,
-
+    CoreModule,
     WildCardRoutingModule // this should be last routing module
   ],
   providers: [],

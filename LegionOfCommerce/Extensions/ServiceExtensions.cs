@@ -1,24 +1,32 @@
 ﻿using Contracts;
 using Entities;
 using Entities.Models;
+using LegionOfCommerce.Helpers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Repositories;
 using System;
+using System.Text;
 
 namespace LegionOfCommerce.Extensions
 {
 	public static class ServiceExtensions
 	{
-		public static void ConfigureCors(this IServiceCollection services)
+		public static void ConfigureApplicationSettings(this IServiceCollection services, IConfiguration config)
+		{
+			services.Configure<AppSettings>(config.GetSection("ApplicationSettings"));
+		}
+		public static void ConfigureCors(this IServiceCollection services, IConfiguration config)
 		{
 			services.AddCors(options =>
 			{
 				options.AddPolicy("CorsPolicy",
-					builder => builder.AllowAnyOrigin()
+					builder => builder.WithOrigins(config["ApplicationSettings:ClientUrl"])
 					.AllowAnyMethod()
 					.AllowAnyHeader()
 					.AllowCredentials());
@@ -55,6 +63,30 @@ namespace LegionOfCommerce.Extensions
 		public static void ConfigureUnitOfWork(this IServiceCollection services)
 		{
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
+		}
+
+		public static void ConfigureJwtAuthentication(this IServiceCollection services, IConfiguration config)
+		{
+			var key = EncodingHelper.GetEncodedJWTKey(config);
+
+			services.AddAuthentication(options =>
+			{
+				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+				options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+			}).AddJwtBearer(options =>
+			{
+				options.RequireHttpsMetadata = false;
+				options.SaveToken = false;
+				options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+				{
+					ValidateIssuerSigningKey = true,
+					IssuerSigningKey = new SymmetricSecurityKey(key),
+					ValidateIssuer = false,
+					ValidateAudience = false,
+					ClockSkew = TimeSpan.Zero
+				};
+			});
 		}
 	}
 }

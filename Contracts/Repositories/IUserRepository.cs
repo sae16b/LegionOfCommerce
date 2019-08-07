@@ -5,8 +5,11 @@ using Entities.Models;
 
 namespace Contracts.Repositories
 {
-    public interface IUserRepository: IRepository<User>
-    {
-		void SayHiToUser(User user);
-    }
+	public interface IUserRepository : IRepository<User>
+	{
+
+		User GetByUserNameOrEmail(string userNameOrEmail);
+		User GetByUserName(string userName);
+		User GetByEmail(string email);
+	}
 }

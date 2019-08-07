@@ -10,4 +10,9 @@ namespace Entities.Models
 		public string Email { get; set; }
 		public string Password { get; set; }
 	}
+	public class UserLoginModel
+	{
+		public string EmailOrUserName { get; set; }
+		public string Password { get; set; }
+	}
 }

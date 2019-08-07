@@ -19,6 +19,7 @@
   color: $lighter-green;
   margin-top: 30px;
   outline: none;
+  position: relative;
 
   &:hover {
     color: white;
@@ -28,6 +29,12 @@
   &:active {
     color: white;
     background-color: $green;
+    border: none;
+  }
+  &:disabled {
+    color: white;
+    background-color: $green;
+    opacity: 0.5;
     border: none;
   }
 }

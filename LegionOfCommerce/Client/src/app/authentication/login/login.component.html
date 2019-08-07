@@ -4,15 +4,35 @@
       <div class="formTitleBanner">
         <p class="formTitle">Sign In</p>
       </div>
-      <form class="formInputsWrapper">
+      <form [formGroup]="loginForm" class="formInputsWrapper">
         <mat-form-field class="usernameOrEmail">
-          <input matInput placeholder="Username / Email" />
+          <mat-error>Username/Email required</mat-error>
+          <input
+            matInput
+            #emailOrUserNameInput
+            placeholder="Username / Email"
+            (keypress)="submitOnEnter($event.key)"
+            formControlName="emailOrUserName"
+          />
         </mat-form-field>
         <mat-form-field class="password">
-          <input matInput type="password" placeholder="Password" />
+          <mat-error>Password required</mat-error>
+          <input
+            matInput
+            type="password"
+            placeholder="Password"
+            (keypress)="submitOnEnter($event.key)"
+            formControlName="password"
+          />
         </mat-form-field>
-
-        <button class="formSubmitButton" type="button">SIGN IN!</button>
+        <button
+          class="formSubmitButton"
+          type="submit"
+          (click)="signIn()"
+          [disabled]="formDisabled"
+        >
+          SIGN IN!
+        </button>
 
         <div class="signupLink">
           Not a member? <a routerLink="/register">Sign up!</a>

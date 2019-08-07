@@ -1,10 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatInputModule, MatButtonModule } from '@angular/material';
+import {
+  MatInputModule,
+  MatButtonModule,
+  MatProgressSpinnerModule,
+  MatRadioModule
+} from '@angular/material';
 import { MatListModule } from '@angular/material/list';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { DropDownComponent } from './drop-down/drop-down.component';
 import { GridItemComponent } from './grid-item/grid-item.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 /*
   NOTE: If certain html tags are incorrectly showing up as
@@ -20,6 +26,8 @@ import { GridItemComponent } from './grid-item/grid-item.component';
     MatButtonModule,
     MatInputModule,
     MatListModule,
+    MatRadioModule,
+    MatProgressSpinnerModule,
     AngularFontAwesomeModule
   ],
   exports: [
@@ -27,6 +35,9 @@ import { GridItemComponent } from './grid-item/grid-item.component';
     MatButtonModule,
     MatInputModule,
     MatListModule,
+    MatRadioModule,
+    MatProgressSpinnerModule,
+    ReactiveFormsModule,
     AngularFontAwesomeModule,
     DropDownComponent,
     GridItemComponent
