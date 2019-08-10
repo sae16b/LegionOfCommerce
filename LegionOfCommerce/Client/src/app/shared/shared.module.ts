@@ -8,9 +8,12 @@ import {
 } from '@angular/material';
 import { MatListModule } from '@angular/material/list';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
-import { DropDownComponent } from './drop-down/drop-down.component';
-import { GridItemComponent } from './grid-item/grid-item.component';
+import { DropDownComponent } from '@app/shared/components/drop-down/drop-down.component';
+import { GridItemComponent } from '@app/shared/components/grid-item/grid-item.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SocialMediaAuthComponent } from '@app/shared/components/social-media-auth/social-media-auth.component';
+import { HitEnterDirective } from './directives/hit-enter.directive';
+import { FormErrorDirective } from './directives/form-error.directive';
 
 /*
   NOTE: If certain html tags are incorrectly showing up as
@@ -20,7 +23,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 */
 
 @NgModule({
-  declarations: [DropDownComponent, GridItemComponent],
+  declarations: [
+    DropDownComponent,
+    GridItemComponent,
+    SocialMediaAuthComponent,
+    HitEnterDirective,
+    FormErrorDirective
+  ],
   imports: [
     CommonModule,
     MatButtonModule,
@@ -40,7 +49,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     AngularFontAwesomeModule,
     DropDownComponent,
-    GridItemComponent
+    GridItemComponent,
+    SocialMediaAuthComponent,
+    HitEnterDirective,
+    FormErrorDirective
   ]
 })
 export class SharedModule {}

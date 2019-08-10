@@ -7,7 +7,7 @@ namespace Entities
 	public partial class LegionContext : IdentityDbContext
 	{
 
-		const string DATABASE_NAME = "legionofcommerce6"; // Change this AND connection string
+		const string DATABASE_NAME = "legionofcommerce8"; // Change this AND connection string
 
 		public LegionContext(DbContextOptions<LegionContext> options)
 			: base(options)
@@ -464,9 +464,9 @@ namespace Entities
 			{
 				entity.ToTable("user", DATABASE_NAME);
 
-				entity.HasIndex(e => e.Email)
+				/* entity.HasIndex(e => e.Email)
 							.HasName("Email_UNIQUE")
-							.IsUnique();
+							.IsUnique(); */
 
 				/* entity.HasIndex(e => e.Username)
 							.HasName("Username_UNIQUE")

@@ -58,6 +58,7 @@ namespace LegionOfCommerce.Extensions
 				options.Password.RequireLowercase = false;
 				options.Password.RequireUppercase = false;
 				options.Password.RequiredLength = 6;
+				options.User.RequireUniqueEmail = true;
 			});
 		}
 		public static void ConfigureUnitOfWork(this IServiceCollection services)

@@ -8,9 +8,8 @@ describe('RegisterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RegisterComponent ]
-    })
-    .compileComponents();
+      declarations: [RegisterComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,17 @@ describe('RegisterComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  /*
+  it('should verify forms', () => {
+    component.email.setValue('banana@gmail.com');
+    component.password.setValue('12345');
+    component.username.setValue('banana');
+    component.confirmPassword.setValue('12345');
+
+    const expected = false;
+    const actual = component.register();
+
+    // expect(actual === 'not valid');
   });
+  */
 });

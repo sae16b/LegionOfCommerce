@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using MySql.Data.MySqlClient;
 
 namespace LegionOfCommerce.Controllers
 {
@@ -26,11 +27,11 @@ namespace LegionOfCommerce.Controllers
 		private UserManager<User> _userManager;
 		private SignInManager<User> _signInManager;
 		private IUserService _userService;
-		private readonly AppSettings _appSettings;
+
 
 		public UserController(UserManager<User> userManager, SignInManager<User> signInManager, IUserService userService, IOptions<AppSettings> appSettings)
 		{
-			_appSettings = appSettings.Value;
+
 			_userManager = userManager;
 			_signInManager = signInManager;
 			_userService = userService;
@@ -43,22 +44,10 @@ namespace LegionOfCommerce.Controllers
 			User user = await _userService.Authenticate(model);
 			if (user == null)
 			{
-				return BadRequest("Could not verify username/password");
+				return Unauthorized("Could not verify username/password");
 			}
 
-			var key = EncodingHelper.GetEncodedJWTKey(_appSettings);
-			var tokenDescriptor = new SecurityTokenDescriptor
-			{
-				Subject = new ClaimsIdentity(new Claim[]
-				{
-					new Claim("UserId", user.Id.ToString())
-				}),
-				Expires = DateTime.UtcNow.AddDays(1),
-				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-			};
-			var tokenHandler = new JwtSecurityTokenHandler();
-			var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-			var token = tokenHandler.WriteToken(securityToken);
+			var token = _userService.CreateUserToken(user);
 
 			return Ok(new { token });
 		}
@@ -76,10 +65,12 @@ namespace LegionOfCommerce.Controllers
 
 		[HttpPost]
 		[Route("Register")]
-		public async Task<Object> RegisterUser(UserRegistrationModel model)
+		public async Task<IActionResult> RegisterUser(UserRegistrationModel model)
 		{
 			var user = new User()
 			{
+				Fname = model.FirstName,
+				Lname = model.LastName,
 				UserName = model.UserName,
 				Email = model.Email
 			};
@@ -87,11 +78,24 @@ namespace LegionOfCommerce.Controllers
 			try
 			{
 				var result = await _userManager.CreateAsync(user, model.Password);
-				return Ok(result);
+				if (!result.Succeeded)
+				{
+					List<IdentityError> resultErrors = result.Errors.ToList();
+					var outputErrors = new List<string>();
+					for (int i = 0; i < resultErrors.Count(); ++i)
+					{
+						outputErrors.Add(resultErrors[i].Description);
+					}
+					return BadRequest(outputErrors);
+				}
+				else
+				{
+					return Ok(new { msg = "User created!" });
+				}
 			}
 			catch (Exception ex)
 			{
-				throw ex;
+				return BadRequest("Could not create user" + ex);
 			}
 		}
 

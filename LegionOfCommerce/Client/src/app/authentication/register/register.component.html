@@ -4,45 +4,61 @@
       <div class="formTitleBanner">
         <p class="formTitle">Sign Up</p>
       </div>
-      <form [formGroup]="registerForm" class="formInputsWrapper">
+      <form [formGroup]="form" class="formInputsWrapper">
         <div class="names">
           <mat-form-field class="first-name">
-            <input matInput placeholder="First Name" />
+            <input
+              matInput
+              placeholder="First Name"
+              formControlName="firstName"
+            />
+            <mat-error appFormError></mat-error>
           </mat-form-field>
           <mat-form-field class="last-name">
-            <input matInput placeholder="Last Name" />
+            <input
+              matInput
+              placeholder="Last Name"
+              formControlName="lastName"
+            />
           </mat-form-field>
         </div>
         <mat-form-field class="username">
-          <input matInput placeholder="Username" />
+          <input matInput placeholder="Username *" formControlName="username" />
         </mat-form-field>
         <mat-form-field class="email">
-          <input matInput type="email" placeholder="Email" />
+          <input
+            matInput
+            type="email"
+            placeholder="Email *"
+            formControlName="email"
+          />
         </mat-form-field>
         <mat-form-field class="password">
-          <input matInput type="password" placeholder="Password" />
+          <input
+            matInput
+            type="password"
+            placeholder="Password *"
+            formControlName="password"
+          />
           <mat-hint>This should be at least 6 characters with 1 digit</mat-hint>
         </mat-form-field>
         <mat-form-field class="confirm-password">
-          <input matInput type="password" placeholder="Confirm Password" />
+          <input
+            matInput
+            type="password"
+            placeholder="Confirm Password *"
+            formControlName="confirmPassword"
+          />
         </mat-form-field>
 
-        <button class="formSubmitButton" type="button">SIGN UP!</button>
-
-        <div class="socialMediaIconsWrapper">
-          <p>or sign up with:</p>
-          <div class="socialMediaIcons">
-            <div class="socialMediaIcon">
-              <a class="fa fa-twitter pointer"></a>
-            </div>
-            <div class="socialMediaIcon">
-              <a class="fa fa-facebook-f pointer"></a>
-            </div>
-            <div class="socialMediaIcon">
-              <a class="fa fa-google pointer"></a>
-            </div>
-          </div>
+        <div class="formSubmitAndErrorWrapper">
+          <button class="formSubmitButton" type="submit" (click)="register()">
+            SIGN UP!
+          </button>
         </div>
+        <app-social-media-auth
+          [formDisabled]="formDisabled"
+        ></app-social-media-auth>
 
         <hr />
 

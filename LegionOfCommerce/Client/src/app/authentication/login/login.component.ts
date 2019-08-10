@@ -8,15 +8,14 @@ import {
   Validators,
   FormBuilder
 } from '@angular/forms';
+import { AuthFormComponent } from '../auth-form/auth-form.component';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
-
+export class LoginComponent extends AuthFormComponent implements OnInit {
   emailOrUserName = new FormControl('', Validators.required);
   password = new FormControl('', Validators.required);
 
@@ -28,46 +27,22 @@ export class LoginComponent implements OnInit {
     password: ''
   };
 
-  formSubmitting = false;
-  formDisabled = false;
+  incorrectUserPassword = false;
 
   constructor(
-    private authService: AuthService,
-    private router: Router,
-    fb: FormBuilder
+    protected authService: AuthService,
+    protected router: Router,
+    protected fb: FormBuilder
   ) {
-    this.loginForm = fb.group({
+    super(authService, router, fb);
+    this.form = fb.group({
       emailOrUserName: this.emailOrUserName,
       password: this.password
     });
   }
 
-  ngOnInit() {}
-
-  submitOnEnter(key) {
-    if (key === 'Enter') {
-      this.signIn();
-      return;
-    }
-  }
-
-  disableForm() {
-    this.formDisabled = true;
-    for (const key in this.loginForm.controls) {
-      if (this.loginForm.controls.hasOwnProperty(key)) {
-        const control = this.loginForm.controls[key];
-        control.disable();
-      }
-    }
-  }
-  enableForm() {
-    for (const key in this.loginForm.controls) {
-      if (this.loginForm.controls.hasOwnProperty(key)) {
-        const control = this.loginForm.controls[key];
-        control.enable();
-      }
-    }
-    this.formDisabled = false;
+  ngOnInit() {
+    this.signInQuickly();
   }
 
   formToAuthInfo() {
@@ -75,29 +50,44 @@ export class LoginComponent implements OnInit {
     this.authInfo.password = this.password.value;
   }
 
+  signInQuickly() {
+    this.emailOrUserName.setValue('bobross');
+    this.password.setValue('123456');
+  }
+
   signIn() {
-    if (!this.loginForm.valid) {
+    if (!this.form.valid) {
       return;
     }
-    this.disableForm();
+    this.incorrectUserPassword = false;
     this.formSubmitting = true;
+    this.disableForm();
+    this.formToAuthInfo();
+    this._signIn();
+  }
+
+  _signIn() {
+    this.authService
+      .login(this.authInfo)
+      .then(_ => {
+        this.signInSuccess();
+      })
+      .catch(err => {
+        // do some error handling for this form
+        this.signInFailure(err);
+      });
+  }
+
+  signInSuccess() {
+    this.router.navigateByUrl('/');
+  }
+
+  signInFailure(err) {
+    this.enableForm();
+    this.formSubmitting = false;
+    this.incorrectUserPassword = true;
     setTimeout(() => {
-      this.formToAuthInfo();
-      console.log(this.authInfo);
-      this.authService.login(this.authInfo).subscribe(
-        res => {
-          console.log(res);
-          // store token and navigate away
-          this.router.navigateByUrl('/');
-        },
-        err => {
-          this.enableForm();
-          this.formSubmitting = false;
-          setTimeout(() => {
-            this.emailOrUserNameInput.nativeElement.focus();
-          });
-        }
-      );
-    }, 1000);
+      this.emailOrUserNameInput.nativeElement.focus();
+    });
   }
 }

@@ -4,14 +4,14 @@
       <div class="formTitleBanner">
         <p class="formTitle">Sign In</p>
       </div>
-      <form [formGroup]="loginForm" class="formInputsWrapper">
+      <form [formGroup]="form" class="formInputsWrapper">
         <mat-form-field class="usernameOrEmail">
           <mat-error>Username/Email required</mat-error>
           <input
             matInput
             #emailOrUserNameInput
             placeholder="Username / Email"
-            (keypress)="submitOnEnter($event.key)"
+            (appHitEnter)="signIn()"
             formControlName="emailOrUserName"
           />
         </mat-form-field>
@@ -21,37 +21,34 @@
             matInput
             type="password"
             placeholder="Password"
-            (keypress)="submitOnEnter($event.key)"
+            (appHitEnter)="signIn()"
             formControlName="password"
           />
         </mat-form-field>
-        <button
-          class="formSubmitButton"
-          type="submit"
-          (click)="signIn()"
-          [disabled]="formDisabled"
-        >
-          SIGN IN!
-        </button>
+        <div class="formSubmitAndErrorWrapper">
+          <p
+            class="formError incorrectUserPassword"
+            *ngIf="incorrectUserPassword"
+          >
+            Incorrect Username/Password
+          </p>
+          <button
+            class="formSubmitButton"
+            type="submit"
+            (click)="signIn()"
+            [disabled]="formDisabled"
+          >
+            SIGN IN!
+          </button>
+        </div>
 
         <div class="signupLink">
           Not a member? <a routerLink="/register">Sign up!</a>
         </div>
 
-        <div class="socialMediaIconsWrapper">
-          <p>or sign in with:</p>
-          <div class="socialMediaIcons">
-            <div class="socialMediaIcon">
-              <a class="fa fa-twitter pointer"></a>
-            </div>
-            <div class="socialMediaIcon">
-              <a class="fa fa-facebook-f pointer"></a>
-            </div>
-            <div class="socialMediaIcon">
-              <a class="fa fa-google pointer"></a>
-            </div>
-          </div>
-        </div>
+        <app-social-media-auth
+          [formDisabled]="formDisabled"
+        ></app-social-media-auth>
       </form>
     </div>
   </div>

@@ -8,6 +8,15 @@
   padding-bottom: 30px;
 }
 
+.formError {
+  color: red;
+  text-align: left;
+}
+
+.formSubmitAndErrorWrapper {
+  margin-top: 30px;
+}
+
 .formSubmitButton {
   height: 50px;
   width: 100%;
@@ -17,7 +26,6 @@
   border-style: solid;
   border-radius: 5px;
   color: $lighter-green;
-  margin-top: 30px;
   outline: none;
   position: relative;
 
@@ -91,6 +99,7 @@
   }
 }
 .socialMediaIcons {
+  user-select: none;
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -117,6 +126,8 @@
     text-decoration: none;
     margin: 5px 2px;
     border-radius: 50%;
+    border: none;
+    outline: none;
 
     &:hover {
       top: -2px;
@@ -131,6 +142,16 @@
       filter: brightness(85%);
     }
   }
+  .fa:disabled {
+    top: 0;
+    left: 0;
+    font-size: 25px;
+    width: 45px;
+    height: 45px !important;
+    box-shadow: 0 5px 10px 1px $dark-grey;
+    filter: opacity(50%);
+  }
+
   .fa-facebook-f {
     background: #3b5998 !important;
     color: white !important;
