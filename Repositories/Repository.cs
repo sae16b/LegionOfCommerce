@@ -54,5 +54,10 @@ namespace Repositories
 		{
 			Set.RemoveRange(entities);
 		}
+
+		public void Update(T entity)
+		{
+			Set.Update(entity);
+		}
 	}
 }

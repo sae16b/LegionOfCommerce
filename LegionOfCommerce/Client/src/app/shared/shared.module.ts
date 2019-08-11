@@ -14,6 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SocialMediaAuthComponent } from '@app/shared/components/social-media-auth/social-media-auth.component';
 import { HitEnterDirective } from './directives/hit-enter.directive';
 import { FormErrorDirective } from './directives/form-error.directive';
+import { CoreModule } from '@app/core/core.module';
 
 /*
   NOTE: If certain html tags are incorrectly showing up as
@@ -32,6 +33,7 @@ import { FormErrorDirective } from './directives/form-error.directive';
   ],
   imports: [
     CommonModule,
+    CoreModule,
     MatButtonModule,
     MatInputModule,
     MatListModule,
@@ -41,6 +43,7 @@ import { FormErrorDirective } from './directives/form-error.directive';
   ],
   exports: [
     CommonModule,
+    CoreModule,
     MatButtonModule,
     MatInputModule,
     MatListModule,

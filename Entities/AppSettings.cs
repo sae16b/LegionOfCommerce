@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Entities
 {
@@ -8,5 +6,6 @@ namespace Entities
 	{
 		public string ClientUrl { get; set; }
 		public string JWTSecret { get; set; }
+		public TimeSpan TokenLifetime { get; set; }
 	}
 }

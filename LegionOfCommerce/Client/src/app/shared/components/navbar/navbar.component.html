@@ -21,13 +21,13 @@
     <li class="nav-list-item pointer cart">
       <i class="fa fa-shopping-cart"></i>
     </li>
-    <li class="nav-list-item">
+    <li class="nav-list-item" *ngIf="!isAuth">
       <a routerLink="/login">Login</a>
     </li>
-    <li class="nav-list-item">
+    <li class="nav-list-item" *ngIf="!isAuth">
       <a routerLink="/register">Register</a>
     </li>
-    <li *ngIf="false" class="nav-list-item profile">
+    <li class="nav-list-item profile" *ngIf="isAuth">
       <i
         #profileDropdown
         class="fa fa-user-circle-o pointer"
@@ -37,8 +37,7 @@
       <app-drop-down [buttonToOpen]="profileDropdown">
         <b>Profile</b>
         <hr />
-        <li>Login</li>
-        <li>Register</li>
+        <li (click)="logout()">Log out</li>
       </app-drop-down>
     </li>
   </ul>

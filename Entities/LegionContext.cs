@@ -28,6 +28,7 @@ namespace Entities
 		public virtual DbSet<ShoppingCartItem> ShoppingCartItem { get; set; }
 		public virtual DbSet<User> User { get; set; }
 		public virtual DbSet<UserAddress> UserAddress { get; set; }
+		public virtual DbSet<RefreshToken> RefreshToken { get; set; }
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{

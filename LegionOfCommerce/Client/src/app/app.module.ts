@@ -28,7 +28,6 @@ import { CoreModule } from './core/core.module';
     SharedModule,
     AuthenticationModule,
     UserModule,
-    CoreModule,
     WildCardRoutingModule // this should be last routing module
   ],
   providers: [],

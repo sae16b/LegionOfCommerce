@@ -15,9 +15,11 @@ namespace Repositories
 		{
 			Context = context;
 			User = new UserRepository(context);
+			RefreshToken = new RefreshTokenRepository(context);
 		}
 
 		public IUserRepository User { get; private set; }
+		public IRefreshTokenRepository RefreshToken { get; private set; }
 
 		public int Complete()
 		{

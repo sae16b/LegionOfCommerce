@@ -5,9 +5,10 @@ using System.Text;
 
 namespace Contracts
 {
-    public interface IUnitOfWork : IDisposable
-    {
+	public interface IUnitOfWork : IDisposable
+	{
 		IUserRepository User { get; }
+		IRefreshTokenRepository RefreshToken { get; }
 		int Complete();
-    }
+	}
 }

@@ -41,15 +41,15 @@ namespace LegionOfCommerce.Controllers
 		[Route("Login")]
 		public async Task<IActionResult> LoginUser(UserLoginModel model)
 		{
-			User user = await _userService.Authenticate(model);
+			User user = await _userService.AuthenticateAsync(model);
 			if (user == null)
 			{
 				return Unauthorized("Could not verify username/password");
 			}
 
-			var token = _userService.CreateUserToken(user);
+			var authResult = _userService.GenerateAuthResultForUser(user);
 
-			return Ok(new { token });
+			return Ok(new AuthResult { Token = authResult.Token, RefreshToken = authResult.RefreshToken });
 		}
 
 		[HttpGet]
@@ -97,6 +97,24 @@ namespace LegionOfCommerce.Controllers
 			{
 				return BadRequest("Could not create user" + ex);
 			}
+		}
+
+		[HttpPost]
+		[Route("Refresh-Auth")]
+		public async Task<IActionResult> RefreshUserAuth(AuthRequest request)
+		{
+			var authResponse = await _userService.RefreshUserTokenAsync(request.Token, request.RefreshToken);
+
+			if (!authResponse.Success)
+			{
+				return BadRequest(authResponse.Errors);
+			}
+
+			return Ok(new AuthResult
+			{
+				Token = authResponse.Token,
+				RefreshToken = authResponse.RefreshToken
+			});
 		}
 
 	}

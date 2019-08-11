@@ -5,7 +5,8 @@ namespace Contracts.Services
 {
 	public interface IUserService
 	{
-		Task<User> Authenticate(UserLoginModel userLoginModel);
-		string CreateUserToken(User user);
+		Task<User> AuthenticateAsync(UserLoginModel userLoginModel);
+		Task<AuthResult> RefreshUserTokenAsync(string token, string refreshToken);
+		AuthResult GenerateAuthResultForUser(User user);
 	}
 }

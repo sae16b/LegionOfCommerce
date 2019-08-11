@@ -69,6 +69,18 @@ namespace LegionOfCommerce.Extensions
 		public static void ConfigureJwtAuthentication(this IServiceCollection services, IConfiguration config)
 		{
 			var key = EncodingHelper.GetEncodedJWTKey(config);
+			var tokenValidationParameters = new TokenValidationParameters
+			{
+				ValidateIssuerSigningKey = true,
+				IssuerSigningKey = new SymmetricSecurityKey(key),
+				ValidateIssuer = false,
+				ValidateAudience = false,
+				ValidateLifetime = true,
+				RequireExpirationTime = false,
+				ClockSkew = TimeSpan.Zero
+			};
+
+			services.AddSingleton(tokenValidationParameters);
 
 			services.AddAuthentication(options =>
 			{
@@ -78,15 +90,8 @@ namespace LegionOfCommerce.Extensions
 			}).AddJwtBearer(options =>
 			{
 				options.RequireHttpsMetadata = false;
-				options.SaveToken = false;
-				options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-				{
-					ValidateIssuerSigningKey = true,
-					IssuerSigningKey = new SymmetricSecurityKey(key),
-					ValidateIssuer = false,
-					ValidateAudience = false,
-					ClockSkew = TimeSpan.Zero
-				};
+				options.SaveToken = true;
+				options.TokenValidationParameters = tokenValidationParameters;
 			});
 		}
 	}
