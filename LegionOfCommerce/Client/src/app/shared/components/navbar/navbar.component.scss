@@ -1,17 +1,33 @@
 @import 'app/custom-theme.scss';
 
+.placeholderNav {
+  position: relative;
+  height: $navbar-height;
+}
+
+.searchbar {
+  @media (max-width: 640px) {
+    display: none;
+  }
+}
+
 #background {
+  position: fixed;
+  z-index: 1000;
   vertical-align: top;
+  width: 100vw;
+  top: 0;
   // background-color: $white;
   background-color: $light-grey;
   display: flex;
   justify-content: space-between;
   align-content: center;
   flex-direction: row;
-  height: 64px;
+  height: $navbar-height;
   padding: 10px;
   margin: 0;
-  box-shadow: 0px 0px 10px 0px grey;
+  // box-shadow: 0px 0px 10px 0px grey;
+  box-shadow: 0px 5px 10px $slightly-light-grey;
   //position: relative;
   //z-index: 10;
 }
@@ -40,6 +56,9 @@
   flex-grow: 1;
   padding: 10px;
   margin-left: 20px;
+  margin-top: auto;
+  margin-bottom: auto;
+  white-space: nowrap;
   i {
     font-size: 40px;
     color: $moderate-grey;
@@ -63,4 +82,8 @@
   &:active {
     background-color: $green;
   }
+}
+
+.navbar-list-item {
+  outline: none !important;
 }

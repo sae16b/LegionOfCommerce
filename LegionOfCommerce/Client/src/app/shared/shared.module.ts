@@ -12,9 +12,11 @@ import { DropDownComponent } from '@app/shared/components/drop-down/drop-down.co
 import { GridItemComponent } from '@app/shared/components/grid-item/grid-item.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SocialMediaAuthComponent } from '@app/shared/components/social-media-auth/social-media-auth.component';
-import { HitEnterDirective } from './directives/hit-enter.directive';
-import { FormErrorDirective } from './directives/form-error.directive';
+import { HitEnterDirective } from '@app/shared/directives/hit-enter/hit-enter.directive';
+import { FormErrorDirective } from '@app/shared/directives/form-error/form-error.directive';
 import { CoreModule } from '@app/core/core.module';
+import { DashboardSidebarComponent } from './components/dashboard-sidebar/dashboard-sidebar.component';
+import { TooltipDirective } from '@app/shared/directives/tooltip/tooltip.directive';
 
 /*
   NOTE: If certain html tags are incorrectly showing up as
@@ -29,7 +31,9 @@ import { CoreModule } from '@app/core/core.module';
     GridItemComponent,
     SocialMediaAuthComponent,
     HitEnterDirective,
-    FormErrorDirective
+    FormErrorDirective,
+    DashboardSidebarComponent,
+    TooltipDirective
   ],
   imports: [
     CommonModule,
@@ -53,6 +57,7 @@ import { CoreModule } from '@app/core/core.module';
     AngularFontAwesomeModule,
     DropDownComponent,
     GridItemComponent,
+    DashboardSidebarComponent,
     SocialMediaAuthComponent,
     HitEnterDirective,
     FormErrorDirective

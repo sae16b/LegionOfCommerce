@@ -1,0 +1,11 @@
+2019-08-12 00:04:14.5605|INFO|LegionOfCommerce.Startup|Services have loaded in
+2019-08-12 01:04:15.4794|INFO|LegionOfCommerce.Startup|Services have loaded in
+2019-08-12 01:09:52.8708|INFO|LegionOfCommerce.Startup|Services have loaded in
+2019-08-12 01:27:09.7267|INFO|LegionOfCommerce.Startup|Services have loaded in
+2019-08-12 01:27:14.7598|INFO|LegionOfCommerce.Startup|Services have loaded in
+2019-08-12 01:31:19.2991|INFO|LegionOfCommerce.Startup|Services have loaded in
+2019-08-12 01:32:07.0256|INFO|LegionOfCommerce.Startup|Services have loaded in
+2019-08-12 01:32:14.3516|INFO|LegionOfCommerce.Startup|Services have loaded in
+2019-08-12 01:48:53.9617|INFO|LegionOfCommerce.Startup|Services have loaded in
+2019-08-12 01:52:09.7746|INFO|LegionOfCommerce.Startup|Services have loaded in
+2019-08-12 02:09:49.2930|INFO|LegionOfCommerce.Startup|Services have loaded in

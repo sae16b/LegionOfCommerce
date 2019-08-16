@@ -12,6 +12,9 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     console.log('navbar init12');
+    this.authService.getUserInfo().subscribe(user => {
+      console.log(user);
+    });
   }
 
   get isAuth() {

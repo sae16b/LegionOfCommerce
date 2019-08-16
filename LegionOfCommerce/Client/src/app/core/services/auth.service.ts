@@ -1,22 +1,25 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpEvent } from '@angular/common/http';
 import { LoginInfo } from '../models/login-info';
 import { serverError } from '../helpers/error-handler';
 import { environment } from 'environments/environment';
-import { take, catchError } from 'rxjs/operators';
+import { take, catchError, switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { RegistrationInfo } from '../models/registration-info';
 import * as jwt_decode from 'jwt-decode';
 import { getLocaleDateTimeFormat } from '@angular/common';
 import { AuthRequest } from '../models/auth-request';
 import { AuthResult } from '../models/auth-result';
+import { headersToString } from 'selenium-webdriver/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
   };
   private TOKEN_NAME = 'token';
   private REFRESH_TOKEN_NAME = 'refresh_token';
@@ -32,18 +35,32 @@ export class AuthService {
 
   constructor(private http: HttpClient) {
     this.isAuthenticated();
+    this.setHeaders();
+  }
+
+  getHeaders() {
+    return this.httpOptions.headers;
+  }
+  setHeaders() {
+    this.httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: 'Bearer ' + this.getToken() || ''
+      })
+    };
   }
 
   logout() {
     localStorage.removeItem(this.TOKEN_NAME);
     localStorage.removeItem(this.REFRESH_TOKEN_NAME);
+    // Probably gonna add in some logic on backend to
+    // invalidate refresh token at a later date
     this.isAuth = false;
   }
 
   isAuthenticated() {
+    this.isTokenExpired();
     const token = this.getToken();
-    console.log('hi');
-    this.isTokenExpired(); // For testing purposes
     this.isAuth = token != null;
     return this.isAuth;
   }
@@ -55,35 +72,30 @@ export class AuthService {
       console.log('Time left on token:', decodedToken.exp - Date.now() / 1000);
       if (decodedToken.exp <= Date.now() / 1000) {
         console.log('expired');
-        this.refreshToken();
+        return true;
       }
+      return false;
     }
   }
 
-  refreshToken(): Promise<any> {
+  getUserInfo() {
+    return this.http
+      .get<any>(this.authUrl + '/info', this.httpOptions)
+      .pipe(take(1));
+  }
+
+  refreshToken(): Observable<any> {
     const authRequest: AuthRequest = {
       token: localStorage.getItem(this.TOKEN_NAME) || '',
       refreshToken: localStorage.getItem(this.REFRESH_TOKEN_NAME) || ''
     };
-    return new Promise((resolve, reject) => {
-      this.http
-        .post<AuthResult>(
-          this.authUrl + '/refresh-auth',
-          authRequest,
-          this.httpOptions
-        )
-        .pipe(take(1))
-        .subscribe(
-          authResult => {
-            this.storeTokens(authResult);
-            resolve(authResult);
-          },
-          err => {
-            this.logout(); // logout if can't refresh token
-            reject(err);
-          }
-        );
-    });
+    return this.http
+      .post<AuthResult>(
+        this.authUrl + '/refresh-auth',
+        authRequest,
+        this.httpOptions
+      )
+      .pipe(take(1));
   }
 
   getToken() {
@@ -98,6 +110,8 @@ export class AuthService {
   storeTokens(authResult: AuthResult) {
     localStorage.setItem(this.TOKEN_NAME, authResult.token);
     localStorage.setItem(this.REFRESH_TOKEN_NAME, authResult.refreshToken);
+    this.setHeaders();
+
     this.isAuthenticated();
   }
 
@@ -109,6 +123,9 @@ export class AuthService {
         .subscribe(
           authResult => {
             this.storeTokens(authResult);
+            // visual studio appears to believe this is an HttpEvent,
+            // not sure why but it is really just an AuthResult
+            // (as seen in a console.log)
             resolve();
           },
           err => {

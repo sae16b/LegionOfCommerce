@@ -1,0 +1,11 @@
+<app-dashboard-sidebar
+  (pageChange)="onPageChange($event)"
+></app-dashboard-sidebar>
+<div class="main-dashboard">
+  <app-create-product
+    *ngIf="currentPage === PageType.ADDING_ITEM"
+  ></app-create-product>
+  <app-list-products
+    *ngIf="currentPage === PageType.LISTING_ITEMS"
+  ></app-list-products>
+</div>

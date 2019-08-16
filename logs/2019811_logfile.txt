@@ -30,3 +30,6 @@
 2019-08-11 16:34:49.9142|INFO|LegionOfCommerce.Startup|Services have loaded in
 2019-08-11 16:36:14.5081|INFO|LegionOfCommerce.Startup|Services have loaded in
 2019-08-11 16:36:20.8867|INFO|LegionOfCommerce.Startup|Services have loaded in
+2019-08-11 22:35:39.4485|INFO|LegionOfCommerce.Startup|Services have loaded in
+2019-08-11 22:35:48.5248|INFO|LegionOfCommerce.Startup|Services have loaded in
+2019-08-11 23:45:13.9969|INFO|LegionOfCommerce.Startup|Services have loaded in

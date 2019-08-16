@@ -5,7 +5,8 @@ import {
   Input,
   HostListener,
   AfterViewInit,
-  ViewChildren
+  ViewChildren,
+  ContentChildren
 } from '@angular/core';
 
 @Component({
@@ -27,6 +28,10 @@ export class DropDownComponent implements AfterViewInit {
     if (this.dropdownVisible && target !== this.buttonToOpen) {
       if (!this.dropdown.nativeElement.contains(event.target)) {
         this.dropdownVisible = false;
+      } else {
+        if (event.target && event.target.classList.contains('close-on-click')) {
+          this.dropdownVisible = false;
+        }
       }
     }
   }

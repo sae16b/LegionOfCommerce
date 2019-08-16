@@ -1,0 +1,45 @@
+@import 'app/custom-theme.scss';
+
+.sidebar-container {
+  // height: 100vh;
+  position: fixed;
+  min-height: calc(100vh - #{$navbar-height});
+  top: $navbar-height;
+  width: $sidebar-width;
+  background-color: $light-grey;
+  box-shadow: 1px 0px 1px $slightly-light-grey;
+}
+
+.sidebar-buttons {
+  position: relative;
+  padding-top: 30px;
+  width: 100%;
+  height: 80px;
+}
+
+.sidebar-icon {
+  font-size: 28px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.sidebar-button {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 60px;
+  text-align: center;
+  &.notSelected {
+    &:hover {
+      background-color: $slightly-light-grey;
+    }
+    &:active {
+      background-color: $moderate-grey;
+      color: $dark-green;
+    }
+  }
+  color: $darker-grey;
+  &.selected {
+    color: $solid-green;
+  }
+}

@@ -1,0 +1,21 @@
+<div class="sidebar-placeholder"></div>
+<div class="sidebar-container">
+  <div class="sidebar-buttons">
+    <div
+      class="sidebar-button"
+      [class.notSelected]="!isPage(PageType.LISTING_ITEMS)"
+      [class.selected]="isPage(PageType.LISTING_ITEMS)"
+      (click)="changePage(PageType.LISTING_ITEMS)"
+    >
+      <i class="fa fa-list sidebar-icon" aria-hidden="true"></i>
+    </div>
+    <div
+      class="sidebar-button"
+      [class.notSelected]="!isPage(PageType.ADDING_ITEM)"
+      [class.selected]="isPage(PageType.ADDING_ITEM)"
+      (click)="changePage(PageType.ADDING_ITEM)"
+    >
+      <i class="fa fa-plus-square sidebar-icon" aria-hidden="true"></i>
+    </div>
+  </div>
+</div>

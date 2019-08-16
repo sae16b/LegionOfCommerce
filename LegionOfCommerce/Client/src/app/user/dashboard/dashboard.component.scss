@@ -1,0 +1,6 @@
+@import 'app/custom-theme.scss';
+
+.main-dashboard {
+  width: calc(100vw - $sidebar-width);
+  margin-left: $sidebar-width;
+}

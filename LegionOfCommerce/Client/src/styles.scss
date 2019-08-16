@@ -2,3 +2,10 @@
 @import '../node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
 @import '../node_modules/bootstrap/dist/css/bootstrap';
 @import './app/custom-theme.scss';
+
+html,
+body {
+  min-height: 100%;
+  height: auto;
+  margin: 0;
+}
