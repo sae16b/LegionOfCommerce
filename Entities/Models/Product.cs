@@ -11,11 +11,13 @@ namespace Entities.Models
 			QuestionAnswers = new HashSet<QuestionAnswer>();
 			Orders = new HashSet<Order>();
 			ShoppingCartItems = new HashSet<ShoppingCartItem>();
+			ProductImages = new HashSet<ProductImage>();
 		}
 
 		public int ProductId { get; set; }
 		public string SellerId { get; set; }
-		//public string MainImgUrl { get; set; }
+		public int MainImgId { get; set; }
+		public int CategoryId { get; set; }
 		public float Rating { get; set; }
 		public int RatingsCount { get; set; }
 		public int Quantity { get; set; }
@@ -30,10 +32,12 @@ namespace Entities.Models
 
 		public virtual ProductAddress ProductAddress { get; set; }
 
+		public virtual Category Category { get; set; }
 		public virtual User Seller { get; set; }
 		public virtual ICollection<ProductReview> ProductReviews { get; set; }
 		public virtual ICollection<QuestionAnswer> QuestionAnswers { get; set; }
 		public virtual ICollection<Order> Orders { get; set; }
 		public virtual ICollection<ShoppingCartItem> ShoppingCartItems { get; set; }
+		public virtual ICollection<ProductImage> ProductImages { get; set; }
 	}
 }

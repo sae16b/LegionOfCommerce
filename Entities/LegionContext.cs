@@ -23,12 +23,14 @@ namespace Entities
 		public virtual DbSet<Product> Product { get; set; }
 		public virtual DbSet<ProductAddress> ProductAddress { get; set; }
 		public virtual DbSet<ProductReview> ProductReviews { get; set; }
+		public virtual DbSet<ProductImage> ProductImages { get; set; }
 		public virtual DbSet<QuestionAnswer> QuestionAnswer { get; set; }
 		public virtual DbSet<Review> Review { get; set; }
 		public virtual DbSet<ShoppingCartItem> ShoppingCartItem { get; set; }
 		public virtual DbSet<User> User { get; set; }
 		public virtual DbSet<UserAddress> UserAddress { get; set; }
 		public virtual DbSet<RefreshToken> RefreshToken { get; set; }
+		public virtual DbSet<Category> Categories { get; set; }
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
@@ -204,6 +206,22 @@ namespace Entities
 							.HasConstraintName("fk_OrderAddress_Order1");
 			});
 
+			modelBuilder.Entity<Category>(entity =>
+			{
+				entity.ToTable("categories", DATABASE_NAME);
+
+				entity.Property(e => e.CategoryId).HasColumnType("int(11)");
+
+				entity.Property(e => e.Name)
+							.IsRequired()
+							.HasMaxLength(255)
+							.IsUnicode(false);
+				entity.Property(e => e.ImageUrl)
+							.IsRequired()
+							.HasMaxLength(2048)
+							.IsUnicode(false);
+			});
+
 			modelBuilder.Entity<Product>(entity =>
 			{
 				entity.ToTable("product", DATABASE_NAME);
@@ -232,6 +250,9 @@ namespace Entities
 				entity.HasIndex(e => e.Title)
 							.HasName("title_idx");
 
+				entity.HasIndex(e => e.CategoryId)
+							.HasName("fk_category_idx");
+
 				entity.Property(e => e.ProductId).HasColumnType("int(11)");
 
 				entity.Property(e => e.Condition)
@@ -244,12 +265,10 @@ namespace Entities
 							.IsRequired()
 							.IsUnicode(false);
 
-				/*
-				entity.Property(e => e.MainImgUrl)
-							.IsRequired()
-							.HasMaxLength(2083)
-							.IsUnicode(false);
-							*/
+				entity.Property(e => e.MainImgId)
+							.IsRequired().HasColumnType("int(11)");
+				entity.Property(e => e.CategoryId)
+							.IsRequired().HasColumnType("int(11)");
 
 				entity.Property(e => e.Quantity).HasColumnType("int(11)");
 
@@ -333,6 +352,32 @@ namespace Entities
 							.HasForeignKey(d => d.TargetProductId)
 							.OnDelete(DeleteBehavior.ClientSetNull)
 							.HasConstraintName("fk_ProductReviews_Product1");
+			});
+
+			modelBuilder.Entity<ProductImage>(entity =>
+			{
+				entity.HasKey(e => e.ProductImageId);
+
+				entity.ToTable("product_images", DATABASE_NAME);
+
+				entity.HasIndex(e => e.ProductId)
+							.HasName("fk_ProductImages_Product1_idx");
+
+				entity.Property(e => e.ProductImageId)
+							.HasColumnType("int(11)");
+
+				entity.Property(e => e.ProductId).HasColumnType("int(11)");
+
+				entity.Property(e => e.ProductImageUrl)
+							.IsRequired()
+							.HasMaxLength(2048) // max length url
+							.IsUnicode(false);
+
+				entity.HasOne(d => d.Product)
+							.WithMany(p => p.ProductImages)
+							.HasForeignKey(d => d.ProductId)
+							.OnDelete(DeleteBehavior.ClientSetNull)
+							.HasConstraintName("fk_ProductImages_Product1");
 			});
 
 			modelBuilder.Entity<QuestionAnswer>(entity =>

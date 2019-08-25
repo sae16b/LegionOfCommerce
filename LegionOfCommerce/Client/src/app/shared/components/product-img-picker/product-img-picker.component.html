@@ -1,0 +1,11 @@
+<div class="img-picker-grid">
+  <div class="img-editor">
+    <span class="test-text">This is the editor</span>
+  </div>
+  <div class="img-grid">
+    <div *ngFor="let img of maxImages" class="img-item">
+      <img class="img" *ngIf="images[img]" src="" alt="none" />
+      <i class="fa fa-image icon"></i>
+    </div>
+  </div>
+</div>

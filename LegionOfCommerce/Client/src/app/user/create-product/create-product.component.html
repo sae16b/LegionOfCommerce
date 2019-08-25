@@ -1,1 +1,33 @@
-<h1>CREATE PRODUCTS</h1>
+<div class="product-creation-wrapper">
+  <h1 class="pageHeader">CREATE PRODUCT</h1>
+  <form [formGroup]="form" class="createProductForm">
+    <mat-form-field appearance="standard" class="productName">
+      <mat-error>Username/Email required</mat-error>
+      <mat-label>Name</mat-label>
+      <input
+        matInput
+        formControlName="name"
+        placeholder="E.g. Blue Hoodie"
+        (appHitEnter)="testFunc()"
+      />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="productDescription">
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        formControlName="description"
+        class="description"
+        placeholder="E.g. This is a blue hoodie made out of cotton"
+      ></textarea>
+    </mat-form-field>
+    <app-product-img-picker></app-product-img-picker>
+    <div class="formSubmitAndErrorWrapper">
+      <p class="formError incorrectUserPassword" *ngIf="false">
+        Incorrect Username/Password
+      </p>
+      <button class="formSubmitButton" type="submit" [disabled]="false">
+        Create Product
+      </button>
+    </div>
+  </form>
+</div>

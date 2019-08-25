@@ -173,7 +173,12 @@
 }
 
 ::ng-deep.mat-form-field-underline {
-  background-color: $green !important;
+  // background-color: $green !important;
+}
+
+::ng-deep .mat-form-field-underline,
+::ng-deep .mat-form-field-ripple {
+  // background-color: blue !important;
 }
 
 ::ng-deep.mat-form-field-ripple {

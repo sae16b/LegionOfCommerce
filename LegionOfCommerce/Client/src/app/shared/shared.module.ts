@@ -17,6 +17,7 @@ import { FormErrorDirective } from '@app/shared/directives/form-error/form-error
 import { CoreModule } from '@app/core/core.module';
 import { DashboardSidebarComponent } from './components/dashboard-sidebar/dashboard-sidebar.component';
 import { TooltipDirective } from '@app/shared/directives/tooltip/tooltip.directive';
+import { ProductImgPickerComponent } from './components/product-img-picker/product-img-picker.component';
 
 /*
   NOTE: If certain html tags are incorrectly showing up as
@@ -33,7 +34,8 @@ import { TooltipDirective } from '@app/shared/directives/tooltip/tooltip.directi
     HitEnterDirective,
     FormErrorDirective,
     DashboardSidebarComponent,
-    TooltipDirective
+    TooltipDirective,
+    ProductImgPickerComponent
   ],
   imports: [
     CommonModule,
@@ -59,6 +61,7 @@ import { TooltipDirective } from '@app/shared/directives/tooltip/tooltip.directi
     GridItemComponent,
     DashboardSidebarComponent,
     SocialMediaAuthComponent,
+    ProductImgPickerComponent,
     HitEnterDirective,
     FormErrorDirective
   ]

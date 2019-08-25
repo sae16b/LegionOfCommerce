@@ -1,0 +1,58 @@
+@import 'app/custom-theme.scss';
+
+$outline-color: rgba(0, 0, 0, 0.12);
+$outline: 1px solid $outline-color;
+
+.img-picker-grid {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1px;
+}
+
+.img-editor {
+  min-width: 364px;
+  min-height: 424px;
+  border-left: $outline;
+  border-top: $outline;
+  border-bottom: $outline;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+
+  .test-text {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+}
+
+.img-grid {
+  background-color: $outline-color;
+  display: inline-grid;
+  grid-gap: 1px;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-auto-flow: column dense;
+  justify-items: start;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0);
+  .img-item {
+    background-color: white;
+    height: 105px;
+    width: 111px;
+    border: 1px solid rgba(0, 0, 0, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .img {
+      color: $outline-color;
+    }
+    .icon {
+      @extend .img;
+      font-size: 50px;
+    }
+    &:hover {
+      z-index: 5;
+      border-color: $lighter-green;
+    }
+  }
+}

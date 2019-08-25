@@ -51,7 +51,7 @@ export class LoginComponent extends AuthFormComponent implements OnInit {
   }
 
   signInQuickly() {
-    this.emailOrUserName.setValue('bobross1');
+    this.emailOrUserName.setValue('bobross12');
     this.password.setValue('123456');
   }
 

@@ -15,7 +15,7 @@ export class DashboardSidebarComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.changePage(DashboardPage.LISTING_ITEMS);
+    this.changePage(DashboardPage.ADDING_ITEM);
   }
 
   changePage(page: DashboardPage) {
